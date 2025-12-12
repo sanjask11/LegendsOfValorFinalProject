@@ -15,6 +15,7 @@ public class LoVExplorationUI implements ExplorationUIBase {
             W/A/S/D - move selected hero
             T - teleport hero
             R - recall hero to nexus
+            M - market (Heroes' Nexus only)
             I - party info
             B - bag
             V - save game

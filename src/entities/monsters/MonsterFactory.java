@@ -55,5 +55,47 @@ public class MonsterFactory implements Serializable {
 
         return result;
     }
+
+    public Monster generateSingleMonster(int level) {
+
+        // Build list of non-empty pools
+        List<List<Monster>> pools = new ArrayList<>();
+        if (!dragons.isEmpty())      pools.add(dragons);
+        if (!spirits.isEmpty())      pools.add(spirits);
+        if (!exoskeletons.isEmpty()) pools.add(exoskeletons);
+
+        if (pools.isEmpty()) {
+            System.out.println("Warning: no monsters loaded.");
+            return null; // caller should handle null
+        }
+
+        // Flatten all monsters into one list
+        List<Monster> all = new ArrayList<>();
+        for (List<Monster> pool : pools) all.addAll(pool);
+
+        if (all.isEmpty()) {
+            System.out.println("Warning: monster pools empty.");
+            return null;
+        }
+
+        // Prefer exact-level monsters, else closest-level monster
+        Monster best = null;
+        int bestDiff = Integer.MAX_VALUE;
+
+        for (Monster m : all) {
+            int diff = Math.abs(m.getLevel() - level);
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                best = m;
+            } else if (diff == bestDiff && RNG.nextBoolean()) {
+                // tie-breaker randomness
+                best = m;
+            }
+        }
+
+        return (best == null) ? null : best.copy();
+    }
+
+
 }
 

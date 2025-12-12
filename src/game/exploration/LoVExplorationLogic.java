@@ -1,6 +1,7 @@
 package game.exploration;
 
 import core.Direction;
+import entities.heroes.Hero;
 import world.LoVWorld;
 import world.party.Party;
 import world.tiles.Tile;
@@ -24,17 +25,22 @@ public class LoVExplorationLogic implements ExplorationLogicBase {
         return world;
     }
 
-    // --- FIXED: Correct signature ---
+    // Move hero 1 step inside lane
     public boolean move(int heroIndex, Direction dir) {
-        return world.moveHero(heroIndex, dir);
+        Hero h = party.getHeroes().get(heroIndex);
+        return world.moveHero(heroIndex, dir, h);
     }
 
+    // Teleport hero to another lane
     public boolean teleport(int heroIndex, int targetRow, int targetCol) {
-        return world.teleportHero(heroIndex, targetRow, targetCol);
+        System.out.println("Teleport must be done using: choose target hero + adjacent direction (W/A/S/D).");
+        return false;
     }
 
-    public boolean recall(int heroIndex) {
-        return world.recallHero(heroIndex);
+    // Recall hero back to nexus
+    public void recall(int heroIndex) {
+        Hero h = party.getHeroes().get(heroIndex);
+        world.recallHero(heroIndex, h);
     }
 
     public Tile getCurrentTile(int heroIndex) {
