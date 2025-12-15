@@ -19,11 +19,20 @@ public final class MarketController {
     public void open(Hero hero) {
         while (true) {
             char root = ui.rootMenu(hero);
+
+            // Java 8 compatible switch (no "->")
             switch (root) {
-                case '1' -> handleBuy(hero);
-                case '2' -> handleSell(hero);
-                case '0' -> { return; }
-                default -> { }
+                case '1':
+                    handleBuy(hero);
+                    break;
+                case '2':
+                    handleSell(hero);
+                    break;
+                case '0':
+                    return;
+                default:
+                    // do nothing
+                    break;
             }
         }
     }
@@ -32,12 +41,25 @@ public final class MarketController {
         while (true) {
             char cat = ui.buyCategoryMenu();
 
+            // Java 8 compatible switch (no "->")
             switch (cat) {
-                case '1' -> buyItem(hero, ui.chooseItem(logic.weapons(market)));
-                case '2' -> buyItem(hero, ui.chooseItem(logic.armors(market)));
-                case '3' -> buyItem(hero, ui.chooseItem(logic.potions(market)));
-                case '4' -> buyItem(hero, ui.chooseItem(logic.spells(market)));
-                case '0' -> { return; }
+                case '1':
+                    buyItem(hero, ui.chooseItem(logic.weapons(market)));
+                    break;
+                case '2':
+                    buyItem(hero, ui.chooseItem(logic.armors(market)));
+                    break;
+                case '3':
+                    buyItem(hero, ui.chooseItem(logic.potions(market)));
+                    break;
+                case '4':
+                    buyItem(hero, ui.chooseItem(logic.spells(market)));
+                    break;
+                case '0':
+                    return;
+                default:
+                    // do nothing
+                    break;
             }
         }
     }

@@ -1,25 +1,12 @@
 package items;
 
-public class Potion extends Item {
-    private final int amount;
-    private final String affected;
+import entities.heroes.Hero;
 
-    public Potion(String name, int price, int requiredLevel,
-                  int amount, String affected) {
+public abstract class Potion extends Item {
+
+    protected Potion(String name, int price, int requiredLevel) {
         super(name, price, requiredLevel);
-        this.amount = amount;
-        this.affected = affected;
     }
 
-    public int getAmount()      { return amount; }
-    public String getAffected() { return affected; }
-
-    @Override
-    public String toString() {
-        return getName() + " [Potion +" + amount +
-                " " + affected +
-                ", lvl=" + getRequiredLevel() +
-                ", cost=" + getPrice() + "]";
-    }
+    public abstract void apply(Hero hero);
 }
-

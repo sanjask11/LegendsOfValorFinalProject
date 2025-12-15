@@ -7,6 +7,7 @@ import items.Spell;
 import java.io.Serializable;
 import java.util.Random;
 
+
 /* This class acts an abstract base class for all monster types.
  * Subclasses provide concrete monster categories and must implement copy(), enabling the MonsterFactory to duplicate template monsters for each battle.
  */
@@ -30,6 +31,22 @@ public abstract class Monster implements Serializable, CombatEntity {
         this.defense = defense;
         this.dodgeChance = dodgeChance;
         this.hp = level * 100;
+    }
+    public void reduceDamage(int amt) {
+        damage = Math.max(0, damage - amt);
+    }
+    public void reduceDefense(int amt) {
+        defense = Math.max(0, defense - amt);
+    }
+
+    public void reduceDodgeChance(int amt) {
+        dodgeChance = Math.max(0, dodgeChance - amt);
+    }
+
+
+    @Override
+    public int computeAttackDamage() {
+        return Math.max((int)(damage * 0.20), 20);
     }
 
     @Override
@@ -59,13 +76,7 @@ public abstract class Monster implements Serializable, CombatEntity {
         System.out.println(name + " took " + reduced + " damage (HP = " + hp + ")");
     }
 
-    public void receiveSpellDamage(int dmg, Spell spell) {
-        switch (spell.getType()) {
-            case ICE       -> damage = (int)(damage * 0.9);
-            case FIRE      -> defense = (int)(defense * 0.9);
-            case LIGHTNING -> dodgeChance = (int)(dodgeChance * 0.9);
-        }
-
+    public void receiveSpellDamage(int dmg) {
         if (dmg < 20) dmg = 20;
         hp -= dmg;
         if (hp < 0) hp = 0;
@@ -73,22 +84,8 @@ public abstract class Monster implements Serializable, CombatEntity {
         System.out.println(name + " took " + dmg + " spell damage (HP = " + hp + ")");
     }
 
-    public void attack(Hero hero) {
-        if (isDead()) return;
 
-        System.out.println(name + " attacks " + hero.getName() + "!");
 
-        if (hero.tryDodgeAttack()) {
-            System.out.println(hero.getName() + " dodged!");
-            return;
-        }
-
-        int dmg = (int)(damage * 0.20);
-        if (dmg < 20) dmg = 20;
-
-        hero.receivePhysicalDamage(dmg);
-        System.out.println(name + " dealt " + dmg + " damage.");
-    }
 
     public abstract Monster copy();
 

@@ -1,11 +1,9 @@
 package game.exploration;
 
-import core.Direction;
 import core.GameState;
 import core.PauseMenu;
 import core.SaveManager;
 import game.InventoryMenu;
-import world.tiles.Tile;
 
 import java.util.Scanner;
 
@@ -37,23 +35,41 @@ public abstract class BaseExplorationController {
             // Game-specific command handled by child classes first
             if (handleGameSpecificCommand(choice)) continue;
 
-            // Common commands
+            // Common commands (Java 8 compatible switch)
             switch (choice) {
-                case "I" -> ui.printPartyInfo(logic.getParty().getHeroes());
-                case "B" -> new InventoryMenu(in, logic.getParty()).show();
-                case "V" -> saveGame();
-                case "L" -> loadGame();
-                case "P" -> pauseGame();
-                case "Q" -> { ui.printGoodbye(); return; }
+                case "I":
+                    ui.printPartyInfo(logic.getParty().getHeroes());
+                    break;
 
-                default -> ui.printInvalidInput();
+                case "B":
+                    new InventoryMenu(in, logic.getParty()).show();
+                    break;
+
+                case "V":
+                    saveGame();
+                    break;
+
+                case "L":
+                    loadGame();
+                    break;
+
+                case "P":
+                    pauseGame();
+                    break;
+
+                case "Q":
+                    ui.printGoodbye();
+                    return;
+
+                default:
+                    ui.printInvalidInput();
+                    break;
             }
         }
     }
 
     /** Subclass overrides for W/A/S/D etc. */
     protected abstract boolean handleGameSpecificCommand(String cmd);
-
 
     /* COMMON FUNCTIONALITY — SHARED BETWEEN MH & LoV */
 
@@ -72,9 +88,15 @@ public abstract class BaseExplorationController {
         state.getWorld().display();
     }
 
-    private void pauseGame() {
+    protected void pauseGame() {
         try {
-            PauseMenu.show(in, this::saveGame);
+            PauseMenu.show(in, new Runnable() {
+                @Override
+                public void run() {
+                    saveGame();
+                }
+            });
+            // (Java 8 also supports: PauseMenu.show(in, this::saveGame); but this is safest everywhere)
         } catch (RuntimeException ex) {
             if ("QUIT_TO_MENU".equals(ex.getMessage())) return;
             throw ex;

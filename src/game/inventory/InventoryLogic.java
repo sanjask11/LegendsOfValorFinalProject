@@ -11,42 +11,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-This class deals with
+ * This class deals with:
  * - Filtering a hero’s inventory into weapons/armors/potions.
  * - Applying game rules for equipping items.
  * - Applying potion effects on heroes through PotionService.
-*/
+ */
 public final class InventoryLogic {
 
     public List<Item> getItems(Hero hero) {
-        return new ArrayList<>(hero.getInventory());
+        return new ArrayList<Item>(hero.getInventory());
     }
 
     public List<Weapon> getWeapons(Hero hero) {
-        List<Weapon> weapons = new ArrayList<>();
+        List<Weapon> weapons = new ArrayList<Weapon>();
         for (Item it : hero.getInventory()) {
-            if (it instanceof Weapon w) {
-                weapons.add(w);
+            // Java 8: no "instanceof Weapon w"
+            if (it instanceof Weapon) {
+                weapons.add((Weapon) it);
             }
         }
         return weapons;
     }
 
     public List<Armor> getArmors(Hero hero) {
-        List<Armor> armors = new ArrayList<>();
+        List<Armor> armors = new ArrayList<Armor>();
         for (Item it : hero.getInventory()) {
-            if (it instanceof Armor a) {
-                armors.add(a);
+            // Java 8: no "instanceof Armor a"
+            if (it instanceof Armor) {
+                armors.add((Armor) it);
             }
         }
         return armors;
     }
 
     public List<Potion> getPotions(Hero hero) {
-        List<Potion> potions = new ArrayList<>();
+        List<Potion> potions = new ArrayList<Potion>();
         for (Item it : hero.getInventory()) {
-            if (it instanceof Potion p) {
-                potions.add(p);
+            // Java 8: no "instanceof Potion p"
+            if (it instanceof Potion) {
+                potions.add((Potion) it);
             }
         }
         return potions;

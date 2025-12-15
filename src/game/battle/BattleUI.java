@@ -20,8 +20,6 @@ public class BattleUI {
         this.in = in;
     }
 
-
-
     public String chooseHeroAction(Hero h) {
         System.out.println("\n--- Hero Turn: " + h.getName() + " ---");
         System.out.println("A: Attack");
@@ -55,14 +53,18 @@ public class BattleUI {
                 }
                 return m;
             } catch (NumberFormatException ignored) {
+                // keep looping
             }
         }
     }
 
     public Spell chooseSpell(Hero h) {
-        List<Spell> spells = new ArrayList<>();
+        List<Spell> spells = new ArrayList<Spell>();
         for (Item it : h.getInventory()) {
-            if (it instanceof Spell sp) spells.add(sp);
+            // Java 8: no "instanceof Spell sp"
+            if (it instanceof Spell) {
+                spells.add((Spell) it);
+            }
         }
 
         if (spells.isEmpty()) {
@@ -93,12 +95,13 @@ public class BattleUI {
         }
     }
 
-
-
     public Potion choosePotion(Hero h) {
-        List<Potion> pots = new ArrayList<>();
+        List<Potion> pots = new ArrayList<Potion>();
         for (Item it : h.getInventory()) {
-            if (it instanceof Potion p) pots.add(p);
+            // Java 8: no "instanceof Potion p"
+            if (it instanceof Potion) {
+                pots.add((Potion) it);
+            }
         }
 
         if (pots.isEmpty()) {
@@ -122,9 +125,12 @@ public class BattleUI {
     }
 
     public Weapon chooseWeapon(Hero hero) {
-        List<Weapon> weapons = new ArrayList<>();
+        List<Weapon> weapons = new ArrayList<Weapon>();
         for (Item it : hero.getInventory()) {
-            if (it instanceof Weapon w) weapons.add(w);
+            // Java 8: no "instanceof Weapon w"
+            if (it instanceof Weapon) {
+                weapons.add((Weapon) it);
+            }
         }
 
         if (weapons.isEmpty()) {
@@ -148,9 +154,12 @@ public class BattleUI {
     }
 
     public Armor chooseArmor(Hero hero) {
-        List<Armor> armors = new ArrayList<>();
+        List<Armor> armors = new ArrayList<Armor>();
         for (Item it : hero.getInventory()) {
-            if (it instanceof Armor a) armors.add(a);
+            // Java 8: no "instanceof Armor a"
+            if (it instanceof Armor) {
+                armors.add((Armor) it);
+            }
         }
 
         if (armors.isEmpty()) {
@@ -172,8 +181,6 @@ public class BattleUI {
             return null;
         }
     }
-
-
 
     public void printStatus(Party party, List<Monster> monsters) {
         System.out.println("\n=== STATUS ===");

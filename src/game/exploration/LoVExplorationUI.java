@@ -10,19 +10,15 @@ public class LoVExplorationUI implements ExplorationUIBase {
 
     @Override
     public void printMainPrompt() {
-        System.out.println("""
-        Movement:
-            W/A/S/D - move selected hero
-            T - teleport hero
-            R - recall hero to nexus
-            M - market (Heroes' Nexus only)
-            I - party info
-            B - bag
-            V - save game
-            L - load game
-            P - pause
-            Q - quit
-        """);
+        System.out.println("[W/A/S/D]=Move  M=Market  I=Info  B=Inventory  Q=Quit  P=Pause  SG=Save Game  L=Load Game");
+
+        // Java 8: no text blocks (""" """)
+        System.out.println("T  Teleport");
+        System.out.println("R  Recall");
+        System.out.println("ATK Attack");
+        System.out.println("C  Cast Spell");
+        System.out.println("U  Use Potion");
+        System.out.println("O  Remove Obstacle");
     }
 
     @Override
@@ -33,7 +29,10 @@ public class LoVExplorationUI implements ExplorationUIBase {
     @Override
     public void printPartyInfo(List<Hero> heroes) {
         ConsoleIO.printHeading("PARTY INFO");
-        heroes.forEach(System.out::println);
+        // Java 8 compatible (forEach exists since Java 8)
+        for (Hero h : heroes) {
+            System.out.println(h);
+        }
     }
 
     @Override

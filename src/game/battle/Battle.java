@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
-This class deals with coordinating an entire battle sequence. It delegates interaction to BattlUI and all combat rules to BattleLogic
- */
+This class deals with coordinating an entire battle sequence.
+It delegates interaction to BattleUI and all combat rules to BattleLogic
+*/
 public class Battle {
 
     private final Party party;
@@ -63,38 +64,43 @@ public class Battle {
             while (true) {
                 String choice = ui.chooseHeroAction(h);
 
-                switch (choice) {
-                    case "A" -> {
-                        Monster m = ui.chooseMonsterTarget(monsters);
-                        if (m != null) logic.heroAttack(h, m);
-                        return;
-                    }
-                    case "S" -> {
-                        Spell sp = ui.chooseSpell(h);
-                        if (sp == null) continue;
-                        Monster m = ui.chooseMonsterTarget(monsters);
-                        if (m != null) logic.heroSpell(h, m, sp);
-                        return;
-                    }
-                    case "P" -> {
-                        Potion p = ui.choosePotion(h);
-                        if (p != null) logic.usePotion(h, p);
-                        return;
-                    }
-                    case "E" -> {
-                        // Weapon?
-                        Weapon w = ui.chooseWeapon(h);
-                        if (w != null) logic.equipWeapon(h, w);
+                // Java 8 compatible switch (no "->" blocks)
+                if ("A".equals(choice)) {
+                    Monster m = ui.chooseMonsterTarget(monsters);
+                    if (m != null) logic.heroAttack(h, m);
+                    return;
 
-                        // Armor?
-                        Armor a = ui.chooseArmor(h);
-                        if (a != null) logic.equipArmor(h, a);
-                    }
-                    case "I" -> ui.printStatus(party, monsters);
-                    case "Q" -> {
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice.");
+                } else if ("S".equals(choice)) {
+                    Spell sp = ui.chooseSpell(h);
+                    if (sp == null) continue;
+                    Monster m = ui.chooseMonsterTarget(monsters);
+                    if (m != null) logic.heroSpell(h, m, sp);
+                    return;
+
+                } else if ("P".equals(choice)) {
+                    Potion p = ui.choosePotion(h);
+                    if (p != null) logic.usePotion(h, p);
+                    return;
+
+                } else if ("E".equals(choice)) {
+                    // Weapon?
+                    Weapon w = ui.chooseWeapon(h);
+                    if (w != null) logic.equipWeapon(h, w);
+
+                    // Armor?
+                    Armor a = ui.chooseArmor(h);
+                    if (a != null) logic.equipArmor(h, a);
+
+                    // NOTE: no return here, so hero can continue choosing actions
+
+                } else if ("I".equals(choice)) {
+                    ui.printStatus(party, monsters);
+
+                } else if ("Q".equals(choice)) {
+                    return;
+
+                } else {
+                    System.out.println("Invalid choice.");
                 }
             }
         }

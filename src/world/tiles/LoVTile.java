@@ -20,11 +20,16 @@ public class LoVTile extends Tile {
         this.type = type;
     }
 
+    // -------- Java 8 compatible (no switch expression) --------
     private static boolean isAccessible(LoVTileType t) {
-        return switch (t) {
-            case WALL, INACCESSIBLE, OBSTACLE -> false;
-            default -> true;
-        };
+        switch (t) {
+            case WALL:
+            case INACCESSIBLE:
+            case OBSTACLE:
+                return false;
+            default:
+                return true;
+        }
     }
 
     @Override
@@ -32,18 +37,29 @@ public class LoVTile extends Tile {
         return type;
     }
 
+    // -------- Java 8 compatible symbol switch --------
     @Override
     public char getSymbol() {
-        return switch (type) {
-            case NEXUS -> 'N';
-            case INACCESSIBLE -> 'I';
-            case OBSTACLE -> 'O';
-            case BUSH -> 'B';
-            case CAVE -> 'C';
-            case KOULOU -> 'K';
-            case PLAIN -> '.';
-            case WALL -> 'X';
-        };
+        switch (type) {
+            case NEXUS:
+                return 'N';
+            case INACCESSIBLE:
+                return 'I';
+            case OBSTACLE:
+                return 'O';
+            case BUSH:
+                return 'B';
+            case CAVE:
+                return 'C';
+            case KOULOU:
+                return 'K';
+            case PLAIN:
+                return '.';
+            case WALL:
+                return 'X';
+            default:
+                return '?';
+        }
     }
 
     /**
@@ -53,15 +69,25 @@ public class LoVTile extends Tile {
     public String bgBlock() {
         String block = "   ";
 
-        return switch (type) {
-            case NEXUS        -> BLUE_BG     + block + RESET;
-            case WALL         -> GRAY_BG     + block + RESET;
-            case INACCESSIBLE -> GRAY_BG     + block + RESET;
-            case BUSH         -> GREEN_BG    + block + RESET;
-            case CAVE         -> MAGENTA_BG  + block + RESET;
-            case KOULOU       -> YELLOW_BG   + block + RESET;
-            case PLAIN        -> CYAN_BG     + block + RESET;
-            case OBSTACLE     -> OBSTACLE_BG + block + RESET;
-        };
+        switch (type) {
+            case NEXUS:
+                return BLUE_BG + block + RESET;
+            case WALL:
+                return GRAY_BG + block + RESET;
+            case INACCESSIBLE:
+                return GRAY_BG + block + RESET;
+            case BUSH:
+                return GREEN_BG + block + RESET;
+            case CAVE:
+                return MAGENTA_BG + block + RESET;
+            case KOULOU:
+                return YELLOW_BG + block + RESET;
+            case PLAIN:
+                return CYAN_BG + block + RESET;
+            case OBSTACLE:
+                return OBSTACLE_BG + block + RESET;
+            default:
+                return block;
+        }
     }
 }

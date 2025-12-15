@@ -14,9 +14,9 @@ public class MonsterFactory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Monster> dragons = new ArrayList<>();
-    private final List<Monster> spirits = new ArrayList<>();
-    private final List<Monster> exoskeletons = new ArrayList<>();
+    private final List<Monster> dragons = new ArrayList<Monster>();
+    private final List<Monster> spirits = new ArrayList<Monster>();
+    private final List<Monster> exoskeletons = new ArrayList<Monster>();
 
     private static final Random RNG = new Random();
 
@@ -31,21 +31,22 @@ public class MonsterFactory implements Serializable {
     public List<Monster> generateMonsters(List<Hero> heroes) {
         int count = heroes.size();
         if (count == 0) {
-            return List.of();
+            // Java 8: no List.of()
+            return new ArrayList<Monster>();
         }
 
         // Build list of non-empty pools
-        List<List<Monster>> pools = new ArrayList<>();
+        List<List<Monster>> pools = new ArrayList<List<Monster>>();
         if (!dragons.isEmpty())      pools.add(dragons);
         if (!spirits.isEmpty())      pools.add(spirits);
         if (!exoskeletons.isEmpty()) pools.add(exoskeletons);
 
         if (pools.isEmpty()) {
             System.out.println("Warning: no monsters loaded; skipping battle.");
-            return new ArrayList<>();
+            return new ArrayList<Monster>();
         }
 
-        List<Monster> result = new ArrayList<>();
+        List<Monster> result = new ArrayList<Monster>();
 
         for (int i = 0; i < count; i++) {
             List<Monster> pool = pools.get(RNG.nextInt(pools.size()));
@@ -59,7 +60,7 @@ public class MonsterFactory implements Serializable {
     public Monster generateSingleMonster(int level) {
 
         // Build list of non-empty pools
-        List<List<Monster>> pools = new ArrayList<>();
+        List<List<Monster>> pools = new ArrayList<List<Monster>>();
         if (!dragons.isEmpty())      pools.add(dragons);
         if (!spirits.isEmpty())      pools.add(spirits);
         if (!exoskeletons.isEmpty()) pools.add(exoskeletons);
@@ -70,8 +71,10 @@ public class MonsterFactory implements Serializable {
         }
 
         // Flatten all monsters into one list
-        List<Monster> all = new ArrayList<>();
-        for (List<Monster> pool : pools) all.addAll(pool);
+        List<Monster> all = new ArrayList<Monster>();
+        for (List<Monster> pool : pools) {
+            all.addAll(pool);
+        }
 
         if (all.isEmpty()) {
             System.out.println("Warning: monster pools empty.");
@@ -95,7 +98,4 @@ public class MonsterFactory implements Serializable {
 
         return (best == null) ? null : best.copy();
     }
-
-
 }
-

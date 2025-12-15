@@ -24,22 +24,30 @@ public class BattleLogic {
     }
 
     public void heroAttack(Hero h, Monster m) {
-        if (m.tryDodge()) return;
-        int dmg = h.getAttackDamage();
-        m.receivePhysicalDamage(dmg);
+        h.attack(m);
     }
+
 
     public void heroSpell(Hero h, Monster m, Spell spell) {
         h.consumeMana(spell.getManaCost());
-        if (m.tryDodge()) return;
+
+        if (m.tryDodge()) {
+            return;
+        }
 
         int base = spell.getBaseDamage();
         int dex = h.getDexterity();
         int dmg = (int) Math.round(base + (dex / 10000.0) * base);
-        m.receiveSpellDamage(dmg, spell);
+
+        // 1. apply damage
+        m.receiveSpellDamage(dmg);
+
+        // 2. apply spell-specific effect (polymorphism)
+        spell.applyEffect(m);
 
         spell.consumeUse();
     }
+
 
     public void usePotion(Hero h, Potion p) {
         PotionService.applyPotion(h, p);

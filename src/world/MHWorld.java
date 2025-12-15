@@ -18,7 +18,7 @@ public class MHWorld extends AbstractWorld implements Serializable {
     private final Party party;
 
     public MHWorld(int size, Party party) {
-        super(size, size);          // sets rows, cols, allocates grid[]
+        super(size, size); // sets rows, cols, allocates grid[]
         this.party = party;
 
         generateWorld();
@@ -60,11 +60,22 @@ public class MHWorld extends AbstractWorld implements Serializable {
         int r = party.getRow();
         int c = party.getCol();
 
+        // Java 8 compatible switch (no "->")
         switch (dir) {
-            case UP -> r--;
-            case DOWN -> r++;
-            case LEFT -> c--;
-            case RIGHT -> c++;
+            case UP:
+                r--;
+                break;
+            case DOWN:
+                r++;
+                break;
+            case LEFT:
+                c--;
+                break;
+            case RIGHT:
+                c++;
+                break;
+            default:
+                break;
         }
 
         if (!inBounds(r, c)) {
@@ -97,7 +108,9 @@ public class MHWorld extends AbstractWorld implements Serializable {
         int pad = (totalWidth - title.length()) / 2;
 
         System.out.println();
-        System.out.println(" ".repeat(pad) + title);
+
+        // Java 8 has no String.repeat()
+        System.out.println(repeat(" ", pad) + title);
         System.out.println();
 
         for (int r = 0; r < rows; r++) {
@@ -113,12 +126,23 @@ public class MHWorld extends AbstractWorld implements Serializable {
                 char symbol = (r == pr && c == pc) ? 'P' : grid[r][c].getSymbol();
                 String colored;
 
+                // Java 8 compatible switch (no "->")
                 switch (symbol) {
-                    case 'P' -> colored = YELLOW + "P" + RESET;
-                    case 'X' -> colored = RED + "X" + RESET;
-                    case 'M' -> colored = BLUE + "M" + RESET;
-                    case '.' -> colored = GREEN + "." + RESET;
-                    default -> colored = "" + symbol;
+                    case 'P':
+                        colored = YELLOW + "P" + RESET;
+                        break;
+                    case 'X':
+                        colored = RED + "X" + RESET;
+                        break;
+                    case 'M':
+                        colored = BLUE + "M" + RESET;
+                        break;
+                    case '.':
+                        colored = GREEN + "." + RESET;
+                        break;
+                    default:
+                        colored = "" + symbol;
+                        break;
                 }
 
                 System.out.print("│ " + colored + " │ ");
@@ -152,6 +176,13 @@ public class MHWorld extends AbstractWorld implements Serializable {
             );
         }
         System.out.println();
+    }
+
+    // Java 8 replacement for String.repeat()
+    private static String repeat(String s, int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) sb.append(s);
+        return sb.toString();
     }
 
     public Tile getCurrentTile() {

@@ -1,5 +1,8 @@
 package entities.heroes;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Sorcerer extends Hero {
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +17,8 @@ public class Sorcerer extends Hero {
     }
 
     @Override
-    protected java.util.List<String> getFavoredAttributes() {
-        return java.util.List.of("Dexterity", "Agility");
+    protected List<String> getFavoredAttributes() {
+        // Java 8 replacement for List.of(...)
+        return Arrays.asList("Dexterity", "Agility");
     }
 }

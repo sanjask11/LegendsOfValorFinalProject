@@ -4,7 +4,6 @@ import core.Direction;
 import entities.heroes.Hero;
 import entities.monsters.Monster;
 import entities.monsters.MonsterFactory;
-import game.InventoryMenu;
 import game.battle.Battle;
 import world.MHWorld;
 import world.party.Party;
@@ -49,13 +48,19 @@ public class MHExplorationController extends BaseExplorationController {
 
     @Override
     protected boolean handleGameSpecificCommand(String choice) {
-        switch (choice) {
-            case "W" -> move(Direction.UP);
-            case "A" -> move(Direction.LEFT);
-            case "S" -> move(Direction.DOWN);
-            case "D" -> move(Direction.RIGHT);
-            case "M" -> enterMarket();
-            default -> { return false; }
+        // Java 8 compatible switch (no "->", no block cases)
+        if ("W".equals(choice)) {
+            move(Direction.UP);
+        } else if ("A".equals(choice)) {
+            move(Direction.LEFT);
+        } else if ("S".equals(choice)) {
+            move(Direction.DOWN);
+        } else if ("D".equals(choice)) {
+            move(Direction.RIGHT);
+        } else if ("M".equals(choice)) {
+            enterMarket();
+        } else {
+            return false;
         }
         return true;
     }
@@ -102,6 +107,8 @@ public class MHExplorationController extends BaseExplorationController {
             if (idx == -1) return;
             if (idx < 0 || idx >= heroes.size()) return;
             mt.getMarket().open(in, heroes.get(idx));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            // ignore invalid input
+        }
     }
 }

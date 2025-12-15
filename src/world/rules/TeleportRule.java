@@ -21,9 +21,11 @@ public class TeleportRule implements Rule<TeleportContext> {
         if (fromLane == targetLane) return false;
         if (destLane != targetLane) return false;
 
-        // must land adjacent to target hero
-        int manhattan = Math.abs(ctx.toR - ctx.targetR) + Math.abs(ctx.toC - ctx.targetC);
-        if (manhattan != 1) return false;
+        int dr = Math.abs(ctx.toR - ctx.targetR);
+        int dc = Math.abs(ctx.toC - ctx.targetC);
+        if (dr == 0 && dc == 0) return false;
+        if (dr > 1 || dc > 1) return false;
+
 
         // cannot teleport ahead of target hero (ahead = smaller row)
         if (ctx.toR < ctx.targetR) return false;

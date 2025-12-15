@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
-This class controls the flow of the inventory system. Lets the player choose which inventory to view,etc.
+ * This class controls the flow of the inventory system.
+ * Lets the player choose which inventory to view, etc.
  */
 public final class InventoryController {
 
@@ -23,7 +24,6 @@ public final class InventoryController {
         this.logic = new InventoryLogic();
         this.ui = new InventoryUI(in);
     }
-
 
     public void openInventory() {
         List<Hero> heroes = party.getHeroes();
@@ -49,15 +49,30 @@ public final class InventoryController {
         while (true) {
             String choice = ui.promptHeroInventoryAction(hero);
 
+            // Java 8 compatible switch (no "->")
             switch (choice) {
-                case "1" -> ui.showItems(hero, logic.getItems(hero));
-                case "2" -> handleEquipWeapon(hero);
-                case "3" -> handleEquipArmor(hero);
-                case "4" -> handleUsePotion(hero);
-                case "0" -> {
-                    return;  // back to hero selection
-                }
-                default -> ui.printInvalidChoice();
+                case "1":
+                    ui.showItems(hero, logic.getItems(hero));
+                    break;
+
+                case "2":
+                    handleEquipWeapon(hero);
+                    break;
+
+                case "3":
+                    handleEquipArmor(hero);
+                    break;
+
+                case "4":
+                    handleUsePotion(hero);
+                    break;
+
+                case "0":
+                    return; // back to hero selection
+
+                default:
+                    ui.printInvalidChoice();
+                    break;
             }
         }
     }

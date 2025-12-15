@@ -3,6 +3,7 @@ package entities;
 /*
 This interface is a common interface for all the combat participants like the heroes and monsters
  */
+
 public interface CombatEntity {
 
     String getName();
@@ -10,10 +11,21 @@ public interface CombatEntity {
     int getHp();
     boolean isDead();
 
-    // Damage Types
+    boolean tryDodge();
     void receivePhysicalDamage(int rawDamage);
 
-    // Dodging
-    boolean tryDodge();
-}
+    int computeAttackDamage();
 
+    default void attack(CombatEntity target) {
+        if (isDead() || target.isDead()) return;
+
+        System.out.println(getName() + " attacks " + target.getName() + "!");
+
+        if (target.tryDodge()) {
+            System.out.println(target.getName() + " dodged!");
+            return;
+        }
+
+        target.receivePhysicalDamage(computeAttackDamage());
+    }
+}

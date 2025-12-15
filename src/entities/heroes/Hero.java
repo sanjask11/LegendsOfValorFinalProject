@@ -25,7 +25,6 @@ This class is the core abstract class for all hero types and,
 
 public abstract class Hero implements Serializable, CombatEntity {
 
-    private static final long serialVersionUID = 1L;
     protected static final Random RNG = new Random();
 
     private final String name;
@@ -66,6 +65,11 @@ public abstract class Hero implements Serializable, CombatEntity {
         this.dexterity = dexterity;
         this.agility = agility;
     }
+    @Override
+    public int computeAttackDamage() {
+        int weaponDamage = weapon == null ? 0 : weapon.getDamage();
+        return (int)((strength + weaponDamage) * 0.80);
+    }
 
     public int getStrength() { return strength; }
     public int getDexterity() { return dexterity; }
@@ -104,12 +108,6 @@ public abstract class Hero implements Serializable, CombatEntity {
 
     public boolean tryDodgeAttack() {
         return RNG.nextDouble() < getDodgeChance();
-    }
-
-    public int getAttackDamage() {
-        int weaponDamage = weapon == null ? 0 : weapon.getDamage();
-        double base = strength + weaponDamage;
-        return (int)(base * 0.80);
     }
 
     @Override

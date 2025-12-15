@@ -36,7 +36,6 @@ public class MHExplorationLogic implements ExplorationLogicBase {
         this.rng = rng;
     }
 
-
     public boolean move(Direction dir) {
         return world.moveParty(dir);
     }
@@ -53,8 +52,12 @@ public class MHExplorationLogic implements ExplorationLogicBase {
         return t instanceof MarketTile;
     }
 
+    // Java 8: no pattern matching "instanceof MarketTile mt"
     public MarketTile asMarketTile(Tile t) {
-        return (t instanceof MarketTile mt) ? mt : null;
+        if (t instanceof MarketTile) {
+            return (MarketTile) t;
+        }
+        return null;
     }
 
     public boolean shouldTriggerBattle() {

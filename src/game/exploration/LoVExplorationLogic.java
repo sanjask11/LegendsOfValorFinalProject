@@ -31,10 +31,11 @@ public class LoVExplorationLogic implements ExplorationLogicBase {
         return world.moveHero(heroIndex, dir, h);
     }
 
-    // Teleport hero to another lane
+    // Teleport hero to a cell adjacent to a target hero in a different lane.
+    // (UI keeps asking for destination: heroIndex row col.)
     public boolean teleport(int heroIndex, int targetRow, int targetCol) {
-        System.out.println("Teleport must be done using: choose target hero + adjacent direction (W/A/S/D).");
-        return false;
+        Hero h = party.getHeroes().get(heroIndex);
+        return world.teleportHero(heroIndex, targetRow, targetCol, h);
     }
 
     // Recall hero back to nexus

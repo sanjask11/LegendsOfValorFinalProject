@@ -7,15 +7,14 @@ import core.Direction;
 import entities.heroes.Hero;
 import entities.monsters.Monster;
 import entities.monsters.MonsterFactory;
-import world.effects.*;
 import world.party.Party;
-import world.rules.*;
 import world.tiles.LoVTile;
 import world.tiles.LoVTileType;
 import world.tiles.Tile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -32,7 +31,7 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     public int getHeroCol(int idx) { return heroCol[idx]; }
 
     // monsters on the board (multiple per lane possible)
-    private final List<LoVMonsterUnit> monsters = new ArrayList<>();
+    private final List<LoVMonsterUnit> monsters = new ArrayList<LoVMonsterUnit>();
 
     private final Random rng = new Random();
 
@@ -40,8 +39,11 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     private final int spawnEvery = 4;
 
     // ---- RULES ----
-    private final List<Rule<MoveContext>> moveRules = List.of(new MoveRule());
-    private final List<Rule<TeleportContext>> teleportRules = List.of(new TeleportRule());
+    private final List<Rule<MoveContext>> moveRules =
+            Arrays.<Rule<MoveContext>>asList(new MoveRule());
+    private final List<Rule<TeleportContext>> teleportRules =
+            Arrays.<Rule<TeleportContext>>asList(new TeleportRule());
+
     private final RangeRule rangeRule = new RangeRule();
     private final NexusWinRule nexusWinRule = new NexusWinRule();
 
@@ -52,11 +54,10 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     private final TileEffect koulouEffect = new KoulouEffect();
     private final TileEffect noEffect = new NoEffect();
 
-
     private final int[] heroSpawnCols;
 
     public LoVWorld() {
-        this(new int[]{0,3,6});
+        this(new int[]{0, 3, 6});
     }
 
     public LoVWorld(int[] heroSpawnCols) {
@@ -66,7 +67,6 @@ public class LoVWorld extends AbstractWorld implements Serializable {
         generateWorld();
         placeHeroesAtNexus(heroSpawnCols);
     }
-
 
     @Override
     protected void generateWorld() {
@@ -104,12 +104,11 @@ public class LoVWorld extends AbstractWorld implements Serializable {
         }
     }
 
-
     // ---------------------- BASIC GETTERS ----------------------
     public int getRound() { return round; }
     public List<LoVMonsterUnit> getMonsters() { return monsters; }
 
-    public int[] getHeroPos(int idx) { return new int[]{ heroRow[idx], heroCol[idx] }; }
+    public int[] getHeroPos(int idx) { return new int[]{heroRow[idx], heroCol[idx]}; }
 
     public Tile getTileForHero(int idx) { return grid[heroRow[idx]][heroCol[idx]]; }
 
@@ -162,40 +161,65 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     }
 
     private TileEffect effectForTile(int r, int c) {
-        if (!(grid[r][c] instanceof LoVTile lt)) return noEffect;
-        return switch (lt.getType()) {
-            case BUSH -> bushEffect;
-            case CAVE -> caveEffect;
-            case KOULOU -> koulouEffect;
-            default -> noEffect;
-        };
+        Tile t = grid[r][c];
+        if (!(t instanceof LoVTile)) return noEffect;
+
+        LoVTile lt = (LoVTile) t;
+        LoVTileType type = lt.getType();
+
+        switch (type) {
+            case BUSH:
+                return bushEffect;
+            case CAVE:
+                return caveEffect;
+            case KOULOU:
+                return koulouEffect;
+            default:
+                return noEffect;
+        }
     }
 
     private void applyEffectForCurrentTile(int heroIdx, Hero hero) {
-        int r = heroRow[heroIdx], c = heroCol[heroIdx];
+        int r = heroRow[heroIdx];
+        int c = heroCol[heroIdx];
         effectForTile(r, c).apply(heroIdx, hero);
     }
 
     // ---------------------- OBSTACLE ----------------------
     public boolean removeObstacle(int r, int c) {
         if (!inBounds(r, c)) return false;
-        if (grid[r][c] instanceof LoVTile lt && lt.getType() == LoVTileType.OBSTACLE) {
-            grid[r][c] = new LoVTile(LoVTileType.PLAIN);
-            return true;
+        if (grid[r][c] instanceof LoVTile) {
+            LoVTile lt = (LoVTile) grid[r][c];
+            if (lt.getType() == LoVTileType.OBSTACLE) {
+                grid[r][c] = new LoVTile(LoVTileType.PLAIN);
+                return true;
+            }
         }
         return false;
     }
 
     // ---------------------- MOVEMENT (RULE-DRIVEN) ----------------------
     public boolean tryMoveHero(int idx, Direction d, Hero hero) {
-        int r = heroRow[idx], c = heroCol[idx];
-        int nr = r, nc = c;
+        int r = heroRow[idx];
+        int c = heroCol[idx];
+        int nr = r;
+        int nc = c;
 
         switch (d) {
-            case UP -> nr--;
-            case DOWN -> nr++;
-            case LEFT -> nc--;
-            case RIGHT -> nc++;
+            case UP:
+                nr--;
+                break;
+            case DOWN:
+                nr++;
+                break;
+            case LEFT:
+                nc--;
+                break;
+            case RIGHT:
+                nc++;
+                break;
+            default:
+                break;
         }
 
         MoveContext ctx = new MoveContext(this, idx, d, hero, r, c, nr, nc);
@@ -227,20 +251,18 @@ public class LoVWorld extends AbstractWorld implements Serializable {
         return true;
     }
 
-
     // Backward-compatible wrappers (if older code still calls these)
     public boolean moveHero(int idx, Direction d, Hero hero) { return tryMoveHero(idx, d, hero); }
+
     public boolean teleportHero(int idx, int targetHeroIdx, int toR, int toC, Hero hero) {
         return tryTeleportHero(idx, targetHeroIdx, toR, toC, hero);
     }
 
-
     public void recallHero(int idx, Hero hero) {
         clearAllEffects(idx, hero);
-        setHeroPos(idx, rows - 1, heroSpawnCols[idx]); // 🔥 SAME LANE
+        setHeroPos(idx, rows - 1, heroSpawnCols[idx]); // SAME LANE
         applyEffectForCurrentTile(idx, hero);
     }
-
 
     // ---------------------- RANGE / ATTACK ----------------------
     public boolean inRange(int r1, int c1, int r2, int c2) {
@@ -248,8 +270,9 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     }
 
     public List<LoVMonsterUnit> monstersInRangeOfHero(int heroIdx) {
-        List<LoVMonsterUnit> res = new ArrayList<>();
-        int hr = heroRow[heroIdx], hc = heroCol[heroIdx];
+        List<LoVMonsterUnit> res = new ArrayList<LoVMonsterUnit>();
+        int hr = heroRow[heroIdx];
+        int hc = heroCol[heroIdx];
 
         for (LoVMonsterUnit mu : monsters) {
             if (mu.getMonster().isDead()) continue;
@@ -260,13 +283,13 @@ public class LoVWorld extends AbstractWorld implements Serializable {
 
     // simplest "attack first monster in range"
     public boolean tryAttack(int heroIdx, Hero hero) {
-        int hr = heroRow[heroIdx], hc = heroCol[heroIdx];
+        int hr = heroRow[heroIdx];
+        int hc = heroCol[heroIdx];
 
         for (LoVMonsterUnit mu : monsters) {
             if (mu.getMonster().isDead()) continue;
             if (rangeRule.inRange(hr, hc, mu.getRow(), mu.getCol())) {
-                // NOTE: if your method names differ, adjust here only.
-                mu.getMonster().receivePhysicalDamage(hero.getAttackDamage());
+                hero.attack(mu.getMonster());
                 return true;
             }
         }
@@ -275,7 +298,10 @@ public class LoVWorld extends AbstractWorld implements Serializable {
 
     // ---------------------- MONSTERS: SPAWN / TURN ----------------------
     public void spawnMonsters(Party party, MonsterFactory mf) {
-        int highest = party.getHeroes().stream().mapToInt(Hero::getLevel).max().orElse(1);
+        int highest = 1;
+        for (Hero h : party.getHeroes()) {
+            if (h.getLevel() > highest) highest = h.getLevel();
+        }
 
         int[][] spawn = new int[][]{
                 {0, 1},
@@ -293,15 +319,17 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     public void monstersTurn(Party party) {
         List<Hero> heroes = party.getHeroes();
 
-        for (LoVMonsterUnit mu : new ArrayList<>(monsters)) {
+        for (LoVMonsterUnit mu : new ArrayList<LoVMonsterUnit>(monsters)) {
             Monster m = mu.getMonster();
             if (m.isDead()) continue;
 
             int targetIdx = -1;
             for (int h = 0; h < 3; h++) {
-                int hr = heroRow[h], hc = heroCol[h];
+                int hr = heroRow[h];
+                int hc = heroCol[h];
                 if (heroes.get(h).isAlive() && rangeRule.inRange(mu.getRow(), mu.getCol(), hr, hc)) {
-                    targetIdx = h; break;
+                    targetIdx = h;
+                    break;
                 }
             }
 
@@ -320,7 +348,8 @@ public class LoVWorld extends AbstractWorld implements Serializable {
             for (LoVMonsterUnit other : monsters) {
                 if (other != mu && !other.getMonster().isDead()
                         && other.getRow() == nr && other.getCol() == nc) {
-                    occupied = true; break;
+                    occupied = true;
+                    break;
                 }
             }
             if (occupied) continue;
@@ -349,7 +378,12 @@ public class LoVWorld extends AbstractWorld implements Serializable {
             totalExp += 2 * lvl;
         }
 
-        monsters.removeIf(mu -> mu.getMonster().isDead());
+        // Java 8 way instead of removeIf
+        for (int i = monsters.size() - 1; i >= 0; i--) {
+            if (monsters.get(i).getMonster().isDead()) {
+                monsters.remove(i);
+            }
+        }
 
         if (totalGold > 0 || totalExp > 0) {
             for (Hero h : party.getHeroes()) {
@@ -392,9 +426,9 @@ public class LoVWorld extends AbstractWorld implements Serializable {
     // ---------------------- DISPLAY ----------------------
     @Override
     public void display() {
-        final String RESET    = "\u001B[0m";
-        final String HERO_BG  = "\u001B[46;1m"; // bright cyan
-        final String MON_BG   = "\u001B[41;1m"; // bright red
+        final String RESET = "\u001B[0m";
+        final String HERO_BG = "\u001B[46;1m"; // bright cyan
+        final String MON_BG = "\u001B[41;1m";  // bright red
 
         System.out.println("\n=== LEGENDS OF VALOR MAP (Round " + round + ") ===\n");
 
@@ -412,7 +446,10 @@ public class LoVWorld extends AbstractWorld implements Serializable {
                 // Show hero / monster overlays (a hero and monster may share a cell)
                 int heroHere = -1;
                 for (int h = 0; h < 3; h++) {
-                    if (heroRow[h] == r && heroCol[h] == c) { heroHere = h; break; }
+                    if (heroRow[h] == r && heroCol[h] == c) {
+                        heroHere = h;
+                        break;
+                    }
                 }
 
                 boolean monsterHere = false;
@@ -446,16 +483,16 @@ public class LoVWorld extends AbstractWorld implements Serializable {
         }
 
         // Legend (tiles)
-        String nexus     = "│" + new LoVTile(LoVTileType.NEXUS).bgBlock()        + "│";
-        String wall      = "│" + new LoVTile(LoVTileType.WALL).bgBlock()         + "│";
-        String imp       = "│" + new LoVTile(LoVTileType.INACCESSIBLE).bgBlock() + "│";
-        String obstacle  = "│" + new LoVTile(LoVTileType.OBSTACLE).bgBlock()     + "│";
-        String bush      = "│" + new LoVTile(LoVTileType.BUSH).bgBlock()         + "│";
-        String cave      = "│" + new LoVTile(LoVTileType.CAVE).bgBlock()         + "│";
-        String koulou    = "│" + new LoVTile(LoVTileType.KOULOU).bgBlock()       + "│";
-        String plain     = "│" + new LoVTile(LoVTileType.PLAIN).bgBlock()        + "│";
-        String hero      = "│" + HERO_BG + " 0 " + RESET + "│";
-        String mon       = "│" + MON_BG  + " M " + RESET + "│";
+        String nexus = "│" + new LoVTile(LoVTileType.NEXUS).bgBlock() + "│";
+        String wall = "│" + new LoVTile(LoVTileType.WALL).bgBlock() + "│";
+        String imp = "│" + new LoVTile(LoVTileType.INACCESSIBLE).bgBlock() + "│";
+        String obstacle = "│" + new LoVTile(LoVTileType.OBSTACLE).bgBlock() + "│";
+        String bush = "│" + new LoVTile(LoVTileType.BUSH).bgBlock() + "│";
+        String cave = "│" + new LoVTile(LoVTileType.CAVE).bgBlock() + "│";
+        String koulou = "│" + new LoVTile(LoVTileType.KOULOU).bgBlock() + "│";
+        String plain = "│" + new LoVTile(LoVTileType.PLAIN).bgBlock() + "│";
+        String hero = "│" + HERO_BG + " 0 " + RESET + "│";
+        String mon = "│" + MON_BG + " M " + RESET + "│";
 
         System.out.println("\nLegend:");
         System.out.println("  Heroes        : " + hero);
@@ -470,26 +507,46 @@ public class LoVWorld extends AbstractWorld implements Serializable {
         System.out.println("  Plain         : " + plain + "\n");
     }
 
-    //--------------------------TELEPORTAITON-------------
+    // -------------------------- TELEPORTATION --------------------------
     public boolean isBehindFrontMonsterInLane(int lane, int heroRowCandidate) {
-        int frontMonsterRow = -1; // highest row number closest to heroes (max row in that lane)
+        int frontMonsterRow = -1; // monster closest to heroes (largest row in that lane)
 
         for (LoVMonsterUnit mu : monsters) {
             if (mu.getMonster().isDead()) continue;
             if (mu.getLane() != lane) continue;
 
-            // monsters move DOWN (increasing row), so "front" for heroes is the monster with greatest row
+            // monsters move DOWN (row increases), so closest to heroes = greatest row
             if (mu.getRow() > frontMonsterRow) frontMonsterRow = mu.getRow();
         }
 
-        // if there is a monster and hero tries to appear behind it (greater row), not allowed
-        return frontMonsterRow != -1 && heroRowCandidate > frontMonsterRow;
+        // HERO cannot teleport "past" the front monster (towards monster nexus)
+        // Past = smaller row number than the monster
+        return frontMonsterRow != -1 && heroRowCandidate < frontMonsterRow;
     }
 
-
-    // BACKWARD COMPATIBILITY — old teleport calls (DO NOT USE)
+    // BACKWARD COMPATIBILITY — older UI/logic may call this overload.
+    // This version infers the target hero based on which hero is adjacent to the destination cell.
+    // Prefer using teleportHero(idx, targetHeroIdx, toR, toC, hero) when possible.
     public boolean teleportHero(int idx, int r, int c, Hero hero) {
+        // destination must be adjacent to SOME other hero, in a different lane
+        for (int targetIdx = 0; targetIdx < 3; targetIdx++) {
+            if (targetIdx == idx) continue;
+
+            int tr = heroRow[targetIdx];
+            int tc = heroCol[targetIdx];
+
+            int dr = Math.abs(r - tr);
+            int dc = Math.abs(c - tc);
+
+            // adjacency includes diagonals
+            if (dr == 0 && dc == 0) continue;
+            if (dr > 1 || dc > 1) continue;
+
+            // try teleport using official rule set
+            if (tryTeleportHero(idx, targetIdx, r, c, hero)) {
+                return true;
+            }
+        }
         return false;
     }
-
 }
