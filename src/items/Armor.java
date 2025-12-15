@@ -1,5 +1,8 @@
 package items;
 
+/*
+ Armor item that reduces incoming physical damage.
+ */
 public class Armor extends Item {
     private final int damageReduction;
 

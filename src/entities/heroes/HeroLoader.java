@@ -27,7 +27,7 @@ public final class HeroLoader implements Serializable {
             br.readLine(); // header
             String line;
 
-            // Java 8: String.isBlank() doesn't exist
+
             while ((line = br.readLine()) != null && !isBlank(line)) {
                 String[] a = line.trim().split("\\s+");
                 String name   = a[0];

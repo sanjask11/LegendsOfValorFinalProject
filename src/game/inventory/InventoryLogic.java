@@ -17,7 +17,7 @@ import java.util.List;
  * - Applying potion effects on heroes through PotionService.
  */
 public final class InventoryLogic {
-
+    // Returns a copy of the hero's inventory list.
     public List<Item> getItems(Hero hero) {
         return new ArrayList<Item>(hero.getInventory());
     }
@@ -32,11 +32,11 @@ public final class InventoryLogic {
         }
         return weapons;
     }
-
+    // Collects all armors from inventory.
     public List<Armor> getArmors(Hero hero) {
         List<Armor> armors = new ArrayList<Armor>();
         for (Item it : hero.getInventory()) {
-            // Java 8: no "instanceof Armor a"
+
             if (it instanceof Armor) {
                 armors.add((Armor) it);
             }
@@ -47,7 +47,7 @@ public final class InventoryLogic {
     public List<Potion> getPotions(Hero hero) {
         List<Potion> potions = new ArrayList<Potion>();
         for (Item it : hero.getInventory()) {
-            // Java 8: no "instanceof Potion p"
+
             if (it instanceof Potion) {
                 potions.add((Potion) it);
             }
@@ -64,7 +64,7 @@ public final class InventoryLogic {
         if (armor == null) return;
         hero.equipArmor(armor);
     }
-
+    // Applies potion effect then removes it from inventory (null-safe).
     public void usePotion(Hero hero, Potion potion) {
         if (potion == null) return;
         PotionService.applyPotion(hero, potion);

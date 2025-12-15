@@ -6,7 +6,10 @@ import world.LoVWorld;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+ Hero turn strategy for LoV (Strategy pattern).
+ Reads commands from console and applies actions until each hero consumes a turn.
+ */
 public class HeroTurnStrategy implements TurnStrategy {
 
     private final Scanner in;
@@ -18,7 +21,7 @@ public class HeroTurnStrategy implements TurnStrategy {
         this.world = world;
         this.party = party;
     }
-
+    // Executes turns for the 3 heroes in order (skip dead heroes).
     @Override
     public void takeTurn() {
         for (int i = 0; i < 3; i++) {
@@ -44,7 +47,7 @@ public class HeroTurnStrategy implements TurnStrategy {
                         System.out.println("Invalid move.");
                     }
 
-                    // ✅ UPDATED TELEPORT (new signature + PDF rule flow)
+
                     case "T" -> {
                         System.out.print("Teleport next to which hero (0/1/2)? ");
                         int targetHeroIdx;
@@ -85,7 +88,7 @@ public class HeroTurnStrategy implements TurnStrategy {
 
                         if (!(dir.equals("W") || dir.equals("A") || dir.equals("S") || dir.equals("D"))) break;
 
-                        // ✅ NEW signature: tryTeleportHero(heroIdx, targetHeroIdx, toR, toC, hero)
+
                         if (world.tryTeleportHero(i, targetHeroIdx, toR, toC, h)) return;
                         System.out.println("Invalid teleport.");
                     }

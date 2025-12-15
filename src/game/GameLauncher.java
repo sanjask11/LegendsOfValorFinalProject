@@ -1,7 +1,10 @@
 package game;
 
 import java.util.Scanner;
-
+/*
+  Simple launcher that lets the player choose MH or LoV mode.
+ Instantiates the chosen GameMode and starts the game.
+ */
 public class GameLauncher {
 
     public void launch() {

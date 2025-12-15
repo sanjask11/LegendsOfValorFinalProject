@@ -94,7 +94,7 @@ public class BattleUI {
             return null;
         }
     }
-
+    // Lets user pick a potion from hero inventory (or null to cancel/invalid）
     public Potion choosePotion(Hero h) {
         List<Potion> pots = new ArrayList<Potion>();
         for (Item it : h.getInventory()) {
@@ -123,7 +123,7 @@ public class BattleUI {
             return null;
         }
     }
-
+    // Lets user pick a weapon from hero inventory (or null to cancel/invalid)
     public Weapon chooseWeapon(Hero hero) {
         List<Weapon> weapons = new ArrayList<Weapon>();
         for (Item it : hero.getInventory()) {
@@ -152,7 +152,7 @@ public class BattleUI {
             return null;
         }
     }
-
+    // Lets user pick an armor from hero inventory (or null to cancel/invalid).
     public Armor chooseArmor(Hero hero) {
         List<Armor> armors = new ArrayList<Armor>();
         for (Item it : hero.getInventory()) {
@@ -181,7 +181,7 @@ public class BattleUI {
             return null;
         }
     }
-
+    // Prints heroes and monsters current stats.
     public void printStatus(Party party, List<Monster> monsters) {
         System.out.println("\n=== STATUS ===");
         System.out.println("Heroes:");
@@ -189,7 +189,7 @@ public class BattleUI {
         System.out.println("Monsters:");
         for (Monster m : monsters) System.out.println(" - " + m + (m.isDead() ? " (DEAD)" : ""));
     }
-
+    // Simple battle messages.
     public void printHeroesWin() {
         System.out.println("\n=== HEROES WIN ===");
     }

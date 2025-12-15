@@ -5,9 +5,12 @@ import entities.heroes.Hero;
 import world.MHWorld;
 
 import java.util.List;
-
+/*
+ Console UI for MH exploration.
+ Prints command prompts, party info, and simple status messages.
+ */
 public class MHExplorationUI implements ExplorationUIBase {
-
+    // Prints the main exploration command prompt.
     @Override
     public void printMainPrompt() {
         System.out.println("Move (W/A/S/D), I=info, B=bag, M=market, V=save, L=load, P=pause, Q=quit:");
@@ -51,12 +54,12 @@ public class MHExplorationUI implements ExplorationUIBase {
     public void displayWorld(MHWorld world) {
         world.display();
     }
-
+    // Clears terminal screen using ANSI escape codes.
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
+    // Short pause to simulate movement animation.
     public void sleepShort() {
         try { Thread.sleep(90); } catch (Exception ignored) {}
     }

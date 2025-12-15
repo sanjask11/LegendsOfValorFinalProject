@@ -5,7 +5,10 @@ import world.party.Party;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+ Setup rules helper for initializing a new game.
+ Validates inputs and builds the initial Party.
+ */
 public class SetupLogic {
 
     public Party createParty(List<Hero> chosenHeroes) {

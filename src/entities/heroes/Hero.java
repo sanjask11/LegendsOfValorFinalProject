@@ -12,15 +12,8 @@ import java.util.Objects;
 import java.util.Random;
 
 /*
-This class is the core abstract class for all hero types and,
- * Encapsulates common RPG attributes (HP, MP, stats, gold, level),
- * inventory and equipment handling, combat interactions, leveling logic,
- * and dodge/attack calculations.
-
- * Concrete hero classes like Warrior,Sorcerer,Paladin extend this and supply
- * favored attributes so level ups can apply class specific scaling.
-
- Acts as the main player controlled combat entity used throughout
+ Abstract base class for all hero types.
+ Defines common stats, inventory/equipment, combat behavior, and leveling logic.
  */
 
 public abstract class Hero implements Serializable, CombatEntity {
@@ -28,7 +21,7 @@ public abstract class Hero implements Serializable, CombatEntity {
     protected static final Random RNG = new Random();
 
     private final String name;
-
+    // Progression / resources
     private int level;
     private int experience;
     private int gold;
@@ -43,7 +36,7 @@ public abstract class Hero implements Serializable, CombatEntity {
     private final List<Item> inventory = new ArrayList<>();
     private Weapon weapon;
     private Armor armor;
-
+    // Initializes a hero with starting stats and resources (level starts at 1).
     public Hero(String name,
                 int baseMana,
                 int strength,
@@ -160,7 +153,7 @@ public abstract class Hero implements Serializable, CombatEntity {
     public void gainGold(int amt) {
         gold += amt;
     }
-
+    // XP gain triggers level-ups at (level * 10) thresholds.
     public void gainExperience(int amt) {
         experience += amt;
         while (experience >= level * 10) {
@@ -171,6 +164,7 @@ public abstract class Hero implements Serializable, CombatEntity {
 
     protected abstract List<String> getFavoredAttributes();
 
+    // Levels up: scales stats, resets HP, boosts MP.
     private void levelUp() {
         level++;
 
@@ -189,17 +183,18 @@ public abstract class Hero implements Serializable, CombatEntity {
         System.out.println(name + " leveled up! Now level " + level);
     }
 
+    // Revives a dead hero with half HP/MP.
     public void reviveHalf() {
         if (hp <= 0) {
             hp = (level * 100) / 2;
             mp = mp / 2;
         }
     }
-
+    // Temporary stat boosts (e.g., potions/buffs).
     public void boostStrength(int delta) { strength += delta; }
     public void boostDexterity(int delta) { dexterity += delta; }
     public void boostAgility(int delta) { agility += delta; }
-
+    // Printable stat summary.
     @Override
     public String toString() {
         return name + " [Lvl " + level +

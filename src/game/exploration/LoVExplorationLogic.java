@@ -5,7 +5,10 @@ import entities.heroes.Hero;
 import world.LoVWorld;
 import world.party.Party;
 import world.tiles.Tile;
-
+/*
+ LoV exploration rules wrapper around LoVWorld.
+ Provides hero-indexed movement/teleport/recall operations.
+ */
 public class LoVExplorationLogic implements ExplorationLogicBase {
 
     private final LoVWorld world;

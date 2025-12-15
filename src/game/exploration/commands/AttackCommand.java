@@ -5,19 +5,22 @@ import world.LoVMonsterUnit;
 import world.LoVWorld;
 
 import java.util.List;
-
+/*
+ Command for LoV exploration: hero attacks a monster in range.
+ Uses the first available target and consumes the hero turn if executed.
+ */
 public class AttackCommand implements HeroCommand {
 
     private final LoVWorld world;
     private final int heroIdx;
     private final Hero hero;
-
+    // Binds this command to a specific hero and world context.
     public AttackCommand(LoVWorld world, int heroIdx, Hero hero) {
         this.world = world;
         this.heroIdx = heroIdx;
         this.hero = hero;
     }
-
+    // Executes an attack if a monster is in range; returns true if turn is consumed.
     @Override
     public boolean execute() {
         // Java 8: no 'var'

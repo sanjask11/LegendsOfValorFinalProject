@@ -48,7 +48,7 @@ public class MHExplorationController extends BaseExplorationController {
 
     @Override
     protected boolean handleGameSpecificCommand(String choice) {
-        // Java 8 compatible switch (no "->", no block cases)
+
         if ("W".equals(choice)) {
             move(Direction.UP);
         } else if ("A".equals(choice)) {
@@ -77,7 +77,7 @@ public class MHExplorationController extends BaseExplorationController {
         mhUI.sleepShort();
         mhUI.clearScreen();
     }
-
+    // Starts a battle when stepping on a common tile and RNG triggers it.
     private void checkForBattle() {
         Tile t = mhLogic.getCurrentTile();
 
@@ -88,7 +88,7 @@ public class MHExplorationController extends BaseExplorationController {
             mhUI.displayWorld(mhLogic.getWorld());
         }
     }
-
+    // Opens the market only if standing on a MarketTile; choose which hero shops.
     private void enterMarket() {
         Tile t = mhLogic.getCurrentTile();
         if (!mhLogic.isMarketTile(t)) {

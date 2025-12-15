@@ -8,7 +8,10 @@ import items.Potion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/*
+ Command to use a potion from the hero's inventory.
+ Prompts selection, applies effect via PotionService, then removes the item.
+ */
 public class UsePotionCommand implements HeroCommand {
 
     private final Hero hero;
@@ -18,7 +21,7 @@ public class UsePotionCommand implements HeroCommand {
         this.hero = hero;
         this.in = in;
     }
-
+    // Executes potion usage; returns true if consumed successfully.
     @Override
     public boolean execute() {
         // Java 8 compatible: no streams + no toList()

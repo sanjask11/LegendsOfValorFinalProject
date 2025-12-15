@@ -5,14 +5,17 @@ import entities.heroes.Hero;
 import world.LoVWorld;
 
 import java.util.List;
-
+/*
+Console UI for LoV exploration.
+Prints command menu, party info, and simple prompts.
+ */
 public class LoVExplorationUI implements ExplorationUIBase {
 
     @Override
     public void printMainPrompt() {
         System.out.println("[W/A/S/D]=Move  M=Market  I=Info  B=Inventory  Q=Quit  P=Pause  SG=Save Game  L=Load Game");
 
-        // Java 8: no text blocks (""" """)
+
         System.out.println("T  Teleport");
         System.out.println("R  Recall");
         System.out.println("ATK Attack");
@@ -29,7 +32,7 @@ public class LoVExplorationUI implements ExplorationUIBase {
     @Override
     public void printPartyInfo(List<Hero> heroes) {
         ConsoleIO.printHeading("PARTY INFO");
-        // Java 8 compatible (forEach exists since Java 8)
+
         for (Hero h : heroes) {
             System.out.println(h);
         }

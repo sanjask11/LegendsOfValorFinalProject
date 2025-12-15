@@ -6,7 +6,10 @@ import world.LoVWorld;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+ Legends of Valor game mode entry.
+ Handles party setup, lane selection, world creation, then starts exploration loop.
+ */
 public class LoVGame implements GameMode {
 
     private final Scanner in = new Scanner(System.in);
@@ -34,7 +37,7 @@ public class LoVGame implements GameMode {
         return hf.createParty(in, 3);
     }
 
-    // NEW ✅
+
     private int[] chooseHeroLanes(Party party) {
         int[] laneToCol = new int[]{0, 3, 6};   // Left/Mid/Right lane start cols
         boolean[] used = new boolean[3];

@@ -7,9 +7,9 @@ import game.InventoryMenu;
 
 import java.util.Scanner;
 
-/**
- * Shared exploration controller used by MH and LoV.
- * The game-specific subclass only handles commands unique to MH/LoV.
+/*
+ Shared exploration controller used by MH and LoV.
+The game-specific subclass only handles commands unique to MH/LoV.
  */
 public abstract class BaseExplorationController {
 
@@ -35,7 +35,7 @@ public abstract class BaseExplorationController {
             // Game-specific command handled by child classes first
             if (handleGameSpecificCommand(choice)) continue;
 
-            // Common commands (Java 8 compatible switch)
+            // Common commands
             switch (choice) {
                 case "I":
                     ui.printPartyInfo(logic.getParty().getHeroes());
@@ -68,7 +68,7 @@ public abstract class BaseExplorationController {
         }
     }
 
-    /** Subclass overrides for W/A/S/D etc. */
+    //Subclass overrides for W/A/S/D etc.
     protected abstract boolean handleGameSpecificCommand(String cmd);
 
     /* COMMON FUNCTIONALITY — SHARED BETWEEN MH & LoV */

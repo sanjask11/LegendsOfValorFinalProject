@@ -1,7 +1,10 @@
 package world.rules;
 
 import java.util.List;
-
+/*
+ RuleEngine: utility class that applies a list of rules to a given context.
+ Returns true only if all rules pass.
+ */
 public final class RuleEngine {
 
     private RuleEngine() {

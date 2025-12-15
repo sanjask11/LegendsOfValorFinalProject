@@ -7,7 +7,10 @@ import game.setup.SetupUI;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+  Menu wrapper for initial game setup.
+  Builds SetupController and exposes party/world-size selection methods.
+ */
 public class SetupMenu {
 
     private final SetupController controller;

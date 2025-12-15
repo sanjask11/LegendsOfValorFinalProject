@@ -15,15 +15,17 @@ public abstract class Monster implements Serializable, CombatEntity {
 
     private static final long serialVersionUID = 1L;
     protected static final Random RNG = new Random();
-
+    // Identity + scaling level
     protected final String name;
     protected final int level;
 
+    // Core combat attributes
     protected int hp;
     protected int damage;
     protected int defense;
     protected int dodgeChance;
 
+    // Initializes a monster; HP scales with level.
     public Monster(String name, int level, int damage, int defense, int dodgeChance) {
         this.name = name;
         this.level = level;
@@ -32,6 +34,7 @@ public abstract class Monster implements Serializable, CombatEntity {
         this.dodgeChance = dodgeChance;
         this.hp = level * 100;
     }
+    // Debuffs that lower monster attributes (not below 0)
     public void reduceDamage(int amt) {
         damage = Math.max(0, damage - amt);
     }
@@ -43,7 +46,7 @@ public abstract class Monster implements Serializable, CombatEntity {
         dodgeChance = Math.max(0, dodgeChance - amt);
     }
 
-
+    // Computes physical attack output for this monster
     @Override
     public int computeAttackDamage() {
         return Math.max((int)(damage * 0.20), 20);
@@ -75,7 +78,7 @@ public abstract class Monster implements Serializable, CombatEntity {
 
         System.out.println(name + " took " + reduced + " damage (HP = " + hp + ")");
     }
-
+    // Applies spell damage directly (minimum damage enforced).
     public void receiveSpellDamage(int dmg) {
         if (dmg < 20) dmg = 20;
         hp -= dmg;
@@ -86,9 +89,9 @@ public abstract class Monster implements Serializable, CombatEntity {
 
 
 
-
+    // Creates a deep copy of this monster (used by factories/spawners).
     public abstract Monster copy();
-
+    // String summary for UI/debug printing
     @Override
     public String toString() {
         return name + " [Lvl " + level +

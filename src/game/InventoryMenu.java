@@ -5,7 +5,10 @@ import game.inventory.InventoryController;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+ Menu wrapper for opening the inventory system.
+ Delegates all work to InventoryController.
+ */
 
 public class InventoryMenu implements Menu {
 

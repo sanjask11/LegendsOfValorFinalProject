@@ -1,7 +1,9 @@
 package items;
 
 import java.io.Serializable;
-
+/*
+  Weapon item that adds damage and may require 1 or 2 hands.
+ */
 public class Weapon extends Item implements Serializable {
     private static final long serialVersionUID = 1L;
 

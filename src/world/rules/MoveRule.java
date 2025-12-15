@@ -1,7 +1,9 @@
 package world.rules;
 
 import world.tiles.Tile;
-
+/*
+ MoveRule: validates whether a hero's attempted move is allowed in LoV world.
+ */
 public class MoveRule implements Rule<MoveContext> {
 
     @Override

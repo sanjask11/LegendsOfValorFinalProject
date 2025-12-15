@@ -5,6 +5,10 @@ import entities.heroes.Hero;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+  Console UI for game setup.
+ Prompts hero selection and world size input.
+ */
 public class SetupUI {
 
     private final Scanner in;
@@ -45,6 +49,7 @@ public class SetupUI {
 
     // ---- world size UI ----
 
+    // Reads world size (defaults to 8 if empty); returns null on invalid input.
     public Integer askWorldSizeRaw() {
         System.out.print("Enter world size (default 8): ");
         String s = in.nextLine().trim();

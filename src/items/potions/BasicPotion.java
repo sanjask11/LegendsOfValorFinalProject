@@ -2,7 +2,10 @@ package items.potions;
 
 import entities.heroes.Hero;
 import items.Potion;
-
+/*
+  Simple potion that boosts one stat type by a fixed amount.
+  The affected stat is chosen by a string (health/mana/strength/dexterity/agility).
+ */
 public class BasicPotion extends Potion {
 
     private final int amount;

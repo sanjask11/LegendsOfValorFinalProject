@@ -1,7 +1,10 @@
 package game.turns;
 
 import world.LoVWorld;
-
+/*
+ Default turn loop for LoV using pluggable strategies (Strategy pattern).
+ Alternates hero and monster turns, advancing rounds until win/lose.
+ */
 public class DefaultTurnSystem implements TurnSystem {
 
     private final LoVWorld world;

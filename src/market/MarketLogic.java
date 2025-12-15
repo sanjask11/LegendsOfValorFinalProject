@@ -4,7 +4,10 @@ import entities.heroes.Hero;
 import items.*;
 
 import java.util.List;
-
+/*
+ MarketLogic: contains core market rules (buy/sell checks + transactions),
+ and provides accessors to market inventories.
+ */
 public final class MarketLogic {
 
     public boolean heroCanBuy(Hero hero, Item item) {

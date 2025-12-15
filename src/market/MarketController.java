@@ -4,6 +4,10 @@ import entities.heroes.Hero;
 import items.*;
 import java.util.Scanner;
 
+/*
+ Controller for the market interaction loop.
+ Routes user choices to MarketLogic and MarketUI (buy/sell/exit).
+ */
 public final class MarketController {
 
     private final Market market;

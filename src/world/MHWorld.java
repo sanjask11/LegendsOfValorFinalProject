@@ -11,7 +11,10 @@ import world.tiles.Tile;
 
 import java.io.Serializable;
 import java.util.Random;
-
+/*
+ MHWorld: Monsters & Heroes world map implementation.
+ Generates a random grid with common/market/inaccessible tiles and tracks party position.
+ */
 public class MHWorld extends AbstractWorld implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +63,7 @@ public class MHWorld extends AbstractWorld implements Serializable {
         int r = party.getRow();
         int c = party.getCol();
 
-        // Java 8 compatible switch (no "->")
+
         switch (dir) {
             case UP:
                 r--;

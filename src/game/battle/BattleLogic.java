@@ -56,12 +56,12 @@ public class BattleLogic {
 
     public void equipWeapon(Hero h, Weapon w) { h.equipWeapon(w); }
     public void equipArmor(Hero h, Armor a) { h.equipArmor(a); }
-
+    // Checks if the battle is won.
     public boolean allMonstersDead(List<Monster> monsters) {
         for (Monster m : monsters) if (!m.isDead()) return false;
         return true;
     }
-
+    // Grants XP/gold to living heroes; revives fallen heroes at half HP/MP.
     public void rewardHeroes(Party party, List<Monster> monsters) {
         int numMonsters = monsters.size();
         int xpGain = numMonsters * 2;
@@ -84,7 +84,7 @@ public class BattleLogic {
             }
         }
     }
-
+    // Regenerates living heroes each round.
     public void regenHeroes(Party party) {
         for (Hero h : party.getHeroes()) if (h.isAlive()) h.healPercent(0.1);
     }

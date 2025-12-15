@@ -5,9 +5,12 @@ import items.*;
 
 import java.util.List;
 import java.util.Scanner;
-
+/*
+  MarketUI: handles console I/O for market interactions (menus + item selection).
+  Does not enforce business rules (handled by MarketLogic).
+ */
 public final class MarketUI {
-
+    //Shared input scanner (injected from outside to avoid multiple Scanners on System.in).
     private final Scanner in;
 
     public MarketUI(Scanner in) {

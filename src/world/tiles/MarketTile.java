@@ -1,7 +1,10 @@
 package world.tiles;
 
 import market.*;
-
+/*
+  MarketTile: a walkable tile that contains a Market.
+  Heroes can enter this tile to buy and sell items.
+ */
 public class MarketTile extends Tile {
     private static final long serialVersionUID = 1L;
 

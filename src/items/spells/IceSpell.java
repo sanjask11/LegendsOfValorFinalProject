@@ -2,7 +2,9 @@ package items.spells;
 
 import entities.monsters.Monster;
 import items.Spell;
-
+/*
+ Ice spell that deals damage and weakens the monster's attack power.
+ */
 public class IceSpell extends Spell {
 
     public IceSpell(String name, int price, int requiredLevel,

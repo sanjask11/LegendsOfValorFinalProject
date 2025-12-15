@@ -3,7 +3,9 @@ package world;
 import entities.monsters.Monster;
 
 import java.io.Serializable;
-
+/*
+ LoVMonsterUnit: wraps a Monster with its position/lane info in the LoV world.
+ */
 public class LoVMonsterUnit implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -6,9 +6,12 @@ import world.LoVWorld;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+ Factory that maps user input to a concrete HeroCommand.
+ Keeps command creation logic centralized (Java 8 friendly if/else).
+ */
 public class HeroCommandFactory {
-
+    // Creates a command based on input; returns null for unknown commands.
     public static HeroCommand create(
             String input,
             LoVWorld world,
@@ -19,6 +22,7 @@ public class HeroCommandFactory {
     ) {
 
         // Java 8 compatible (no switch expression, no ->)
+
         if ("W".equals(input)) {
             return new MoveCommand(world, heroIdx, hero, Direction.UP);
 

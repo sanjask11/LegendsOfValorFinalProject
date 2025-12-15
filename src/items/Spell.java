@@ -1,5 +1,8 @@
 package items;
-
+/*
+ Abstract spell item with damage, mana cost, and limited uses.
+ Subclasses implement applyEffect() to add a debuff/special effect.
+ */
 public abstract class Spell extends Item {
 
     protected final int baseDamage;

@@ -1,7 +1,10 @@
 package items;
 
 import java.io.Serializable;
-
+/*
+  Abstract base class for all items.
+ Stores shared fields like name, price, and required level.
+ */
 public abstract class Item implements Serializable {
     private static final long serialVersionUID = 1L;
 

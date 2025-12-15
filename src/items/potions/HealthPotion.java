@@ -2,7 +2,9 @@ package items.potions;
 
 import entities.heroes.Hero;
 import items.Potion;
-
+/*
+ Potion that restores a fixed amount of health.
+ */
 public class HealthPotion extends Potion {
 
     private final int amount;

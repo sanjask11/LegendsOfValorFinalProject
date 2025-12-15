@@ -3,7 +3,10 @@ package world.rules;
 import core.Direction;
 import entities.heroes.Hero;
 import world.LoVWorld;
-
+/*
+ MoveContext: a simple data holder describing one attempted hero move.
+ Used by movement/rule checks to avoid passing many parameters around.
+ */
 public class MoveContext {
     public final LoVWorld world;
     public final int heroIdx;

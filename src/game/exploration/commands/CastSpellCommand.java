@@ -9,6 +9,8 @@ import world.LoVWorld;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+//Command for LoV exploration: cast a spell on a monster in range.
+// Prompts spell selection, checks mana/uses, then applies damage + effect.
 
 public class CastSpellCommand implements HeroCommand {
 

@@ -4,7 +4,9 @@
 package world.rules;
 
 import world.tiles.Tile;
-
+/*
+ TeleportRule: validates whether a hero teleport action is legal in LoV world.
+ */
 public class TeleportRule implements Rule<TeleportContext> {
 
     @Override

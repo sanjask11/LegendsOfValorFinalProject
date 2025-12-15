@@ -64,7 +64,7 @@ public class Battle {
             while (true) {
                 String choice = ui.chooseHeroAction(h);
 
-                // Java 8 compatible switch (no "->" blocks)
+
                 if ("A".equals(choice)) {
                     Monster m = ui.chooseMonsterTarget(monsters);
                     if (m != null) logic.heroAttack(h, m);
@@ -95,7 +95,7 @@ public class Battle {
 
                 } else if ("I".equals(choice)) {
                     ui.printStatus(party, monsters);
-
+                    // Quit hero turn early (skip remaining heroes)
                 } else if ("Q".equals(choice)) {
                     return;
 
@@ -105,7 +105,7 @@ public class Battle {
             }
         }
     }
-
+    // Handles the monster turn: each living monster attacks a living hero.
     private void monsterTurn() {
         ui.printMonsterTurn();
 

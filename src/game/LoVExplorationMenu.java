@@ -6,7 +6,10 @@ import world.LoVWorld;
 import world.party.Party;
 
 import java.util.Scanner;
-
+/*
+ Menu entry that starts Legends of Valor exploration mode.
+ Constructs the LoVExplorationController and runs it.
+ */
 public class LoVExplorationMenu implements Menu {
 
     private final Scanner in;

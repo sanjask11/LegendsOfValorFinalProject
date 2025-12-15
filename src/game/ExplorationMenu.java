@@ -8,7 +8,10 @@ import world.party.Party;
 
 import java.util.Random;
 import java.util.Scanner;
-
+/*
+  Menu entry that starts MH exploration mode.
+ Simply constructs the controller and runs it.
+ */
 public class ExplorationMenu implements Menu {
 
     private final Scanner in;
@@ -16,7 +19,7 @@ public class ExplorationMenu implements Menu {
     private final Party party;
     private final MonsterFactory factory;
     private final Random rng;
-
+    // Stores dependencies needed to launch exploration.
     public ExplorationMenu(Scanner in,
                            MHWorld MHWorld,
                            Party party,

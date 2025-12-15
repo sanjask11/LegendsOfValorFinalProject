@@ -3,7 +3,10 @@ package game.exploration.commands;
 import core.Direction;
 import entities.heroes.Hero;
 import world.LoVWorld;
-
+/*
+ Command to move a hero one tile in the given direction.
+ Consumes the turn only if the move succeeds.
+ */
 public class MoveCommand implements HeroCommand {
 
     private final LoVWorld world;

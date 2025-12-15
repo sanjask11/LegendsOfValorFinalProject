@@ -1,7 +1,10 @@
 package world.tiles;
 
 import java.io.Serializable;
-
+/*
+ Tile: base class for all map tiles in the LoV world.
+ Stores accessibility and defines common tile behavior.
+ */
 public abstract class Tile implements Serializable {
     private static final long serialVersionUID = 1L;
 

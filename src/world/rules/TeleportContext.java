@@ -2,7 +2,10 @@ package world.rules;
 
 import entities.heroes.Hero;
 import world.LoVWorld;
-
+/*
+ TeleportContext: data holder describing a hero teleport action.
+ Used by teleport-related rules to validate legality.
+ */
 public class TeleportContext {
     public final LoVWorld world;
 

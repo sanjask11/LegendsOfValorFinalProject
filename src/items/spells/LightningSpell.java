@@ -2,7 +2,9 @@ package items.spells;
 
 import entities.monsters.Monster;
 import items.Spell;
-
+/*
+ * Lightning spell that deals damage and reduces the monster's dodge chance.
+ */
 public class LightningSpell extends Spell {
 
     public LightningSpell(String name, int price, int requiredLevel,

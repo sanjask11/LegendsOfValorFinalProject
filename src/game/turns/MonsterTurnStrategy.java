@@ -3,7 +3,10 @@ package game.turns;
 import entities.monsters.MonsterFactory;
 import world.LoVWorld;
 import world.party.Party;
-
+/*
+ Monster turn strategy for LoV (Strategy pattern).
+ Handles periodic spawning, monster actions, and cleanup/rewards.
+ */
 public class MonsterTurnStrategy implements TurnStrategy {
 
     private final LoVWorld world;

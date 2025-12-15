@@ -14,13 +14,17 @@ import world.tiles.Tile;
 
 import java.util.Scanner;
 
+/*
+ Legends of Valor exploration controller.
+ Runs the turn-based loop (heroes then monsters) and dispatches hero commands.
+ */
 public class LoVExplorationController extends BaseExplorationController {
 
     private final LoVWorld world;
     private final Party party;
     private final MonsterFactory monsterFactory;
     private final MarketController marketController;
-
+    // Sets up LoV-specific logic/UI plus market + monster factory.
     public LoVExplorationController(Scanner in, LoVWorld world, Party party) {
         super(in, new LoVExplorationLogic(world, party), new LoVExplorationUI());
         this.world = world;
@@ -28,7 +32,7 @@ public class LoVExplorationController extends BaseExplorationController {
         this.monsterFactory = new MonsterFactory(); // reuse your loader-based factory
         this.marketController = new MarketController(new Market(), in);
     }
-
+    // Main game loop: spawn/display, hero turns, monster turns, round updates.
     @Override
     public void run() {
         world.spawnMonsters(party, monsterFactory);
@@ -68,7 +72,7 @@ public class LoVExplorationController extends BaseExplorationController {
             world.display();
         }
     }
-
+    // Handles a single hero's action until a turn-consuming command succeeds.
     private void heroTurn(int heroIdx) {
         Hero hero = party.getHeroes().get(heroIdx);
 
@@ -83,7 +87,7 @@ public class LoVExplorationController extends BaseExplorationController {
 
             String cmd = in.nextLine().trim().toUpperCase();
 
-            // Java 8 compatible switch (no "->", no "var")
+            // Built-in commands + dispatch to command objects for movement/combat.
             switch (cmd) {
                 case "I":
                     System.out.println(hero);

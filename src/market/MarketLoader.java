@@ -8,7 +8,10 @@ import items.spells.LightningSpell;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-
+/*
+  Loads market inventory (weapons/armors/potions/spells) from data files.
+ Populates the given Market instance using simple line-based parsing.
+ */
 public final class MarketLoader {
 
     private MarketLoader() {}
@@ -126,7 +129,7 @@ public final class MarketLoader {
         }
     }
 
-    // Java 8 replacement for String.isBlank() (Java 11+)
+
     private static boolean isBlank(String s) {
         return s == null || s.trim().isEmpty();
     }

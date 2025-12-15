@@ -25,7 +25,7 @@ public class MHExplorationLogic implements ExplorationLogicBase {
     private final Party party;
     private final MonsterFactory monsterFactory;
     private final Random rng;
-
+    // Binds logic to world/party plus monster factory and RNG for encounters.
     public MHExplorationLogic(MHWorld world,
                               Party party,
                               MonsterFactory monsterFactory,
@@ -35,7 +35,7 @@ public class MHExplorationLogic implements ExplorationLogicBase {
         this.monsterFactory = monsterFactory;
         this.rng = rng;
     }
-
+    // Moves the party using world movement rules.
     public boolean move(Direction dir) {
         return world.moveParty(dir);
     }
@@ -52,7 +52,7 @@ public class MHExplorationLogic implements ExplorationLogicBase {
         return t instanceof MarketTile;
     }
 
-    // Java 8: no pattern matching "instanceof MarketTile mt"
+
     public MarketTile asMarketTile(Tile t) {
         if (t instanceof MarketTile) {
             return (MarketTile) t;

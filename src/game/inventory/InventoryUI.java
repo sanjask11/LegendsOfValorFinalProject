@@ -15,7 +15,7 @@ This class handles all the input and output related to the inventory.
 public final class InventoryUI {
 
     private final Scanner in;
-
+    // Uses shared Scanner for reading user input.
     public InventoryUI(Scanner in) {
         this.in = in;
     }
@@ -92,6 +92,7 @@ public final class InventoryUI {
         System.out.println("No armors.");
     }
 
+    // Prompts armor choice; returns null if canceled/invalid.
     public Armor chooseArmor(List<Armor> armors) {
         System.out.println("\nArmors:");
         for (int i = 0; i < armors.size(); i++) {
@@ -115,7 +116,7 @@ public final class InventoryUI {
     public void showNoPotions() {
         System.out.println("No potions.");
     }
-
+    // Prompts potion choice; returns null if canceled/invalid
     public Potion choosePotion(List<Potion> potions) {
         System.out.println("\nPotions:");
         for (int i = 0; i < potions.size(); i++) {
@@ -133,7 +134,7 @@ public final class InventoryUI {
             return null;
         }
     }
-
+    // Generic invalid input message.
     public void printInvalidChoice() {
         System.out.println("Invalid choice.");
     }
