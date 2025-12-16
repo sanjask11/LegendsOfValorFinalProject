@@ -83,19 +83,18 @@ public class Battle {
                     return;
 
                 } else if ("E".equals(choice)) {
-                    // Weapon?
+                    
                     Weapon w = ui.chooseWeapon(h);
                     if (w != null) logic.equipWeapon(h, w);
 
-                    // Armor?
+                    
                     Armor a = ui.chooseArmor(h);
                     if (a != null) logic.equipArmor(h, a);
 
-                    // NOTE: no return here, so hero can continue choosing actions
 
                 } else if ("I".equals(choice)) {
                     ui.printStatus(party, monsters);
-                    // Quit hero turn early (skip remaining heroes)
+                   
                 } else if ("Q".equals(choice)) {
                     return;
 
@@ -105,7 +104,7 @@ public class Battle {
             }
         }
     }
-    // Handles the monster turn: each living monster attacks a living hero.
+    
     private void monsterTurn() {
         ui.printMonsterTurn();
 
