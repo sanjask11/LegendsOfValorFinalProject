@@ -20,8 +20,8 @@ public class LoVGame implements GameMode {
 
         Party party = setupParty();
 
-        int[] heroNexusCols = chooseHeroLanes(party);   // NEW ✅
-        LoVWorld world = new LoVWorld(heroNexusCols);   // CHANGED ✅
+        int[] heroNexusCols = chooseHeroLanes(party);   
+        LoVWorld world = new LoVWorld(heroNexusCols);   
 
         world.display();
 
